@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- Dialeto usado para queries -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    
+    <!-- Configuracao do BD -->
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost/supermercado</property>
+    <property name="hibernate.connection.username">paulo</property>
+    <property name="hibernate.connection.password">qmozg123</property>
+    
+    <!-- Exibe queries na saida (prompt) -->
+    <property name="jibernate.show_sql">true</property>
+    
+    <!-- Gera Classes para as tabelas caso a propriedade seja false -->
+    <!-- property name="hibernate.bytecode.use_reflection_optimizer">false</property -->
+    
+    <!-- Cria novas tabelas caso a propriedade seja create -->
+    <!--property name="hibernate.hbm2ddl.auto">create</property -->
+
+        
+    <mapping class="br.ufg.inf.dto.Produto"/>
+    
+  </session-factory>
+</hibernate-configuration>
