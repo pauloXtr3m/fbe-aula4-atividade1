@@ -8,8 +8,10 @@ package br.ufg.inf.dao;
 import java.util.List;
 
 import br.ufg.inf.dto.Produto;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -67,6 +69,66 @@ public class ProdutoDAO {
             }
         }
         return produtos;
+    }
+
+    public void addProduto(Produto produto){
+        Session session = null;
+        Transaction tx = null;
+        Integer employeeID = null;
+        try{
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+            session.save(produto);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            assert session != null;
+            session.close();
+        }
+    }
+
+    public void delProduto(Integer produtoID){
+        Session session = null;
+        Transaction tx = null;
+        try{
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+            Produto produto =
+                    (Produto) session.get(Produto.class, produtoID);
+            session.delete(produto);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            assert session != null;
+            session.close();
+        }
+    }
+
+    public void updateProduto(Produto novoProduto){
+        Session session = null;
+        Transaction tx = null;
+        try{
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+            Produto produto = (Produto) session.get(Produto.class, novoProduto.getProdutoId());
+
+            produto.setNome(novoProduto.getNome());
+            produto.setPreco(novoProduto.getPreco());
+            produto.setCodigo(novoProduto.getCodigo());
+
+            session.update(produto);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            assert session != null;
+            session.close();
+        }
     }
 
 }

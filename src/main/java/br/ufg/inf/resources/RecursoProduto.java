@@ -62,6 +62,15 @@ public class RecursoProduto {
     @Consumes("application/json")
     @Produces("application/json; charset=utf-8")
     public String addProduto(String prod) {
+        try {
+            Gson gson = new Gson();
+
+            Produto produto = gson.fromJson(prod, Produto.class);
+            produtoDao.addProduto(produto);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "";
     }
 
@@ -69,13 +78,29 @@ public class RecursoProduto {
     @Consumes("application/json")
     @Produces("application/json; charset=utf-8")
     public String setProduto(String prod) {
-       return "";
+        try {
+            Gson gson = new Gson();
+
+            Produto produto = gson.fromJson(prod, Produto.class);
+            produtoDao.updateProduto(produto);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @DELETE
     @Path("del/{codigo}")
     //@Produces("application/json" + ";charset=utf-8")
     public String delProduto(@PathParam("codigo") String codigo) {
+        try{
+            produtoDao.delProduto(Integer.parseInt(codigo));
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         return "";
     }
 
